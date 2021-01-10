@@ -1,10 +1,12 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, View
 from .models import Additive_list
 import requests
 import urllib.request
 import json
 from .SortingAlgo import ingredient_sort
+from django.http import JsonResponse
+from django.core import serializers
 
 class Search(TemplateView): 
     # url = 'https://api.barcodelookup.com/v2/products?barcode=072250011372&formatted=y&key=' + "ax4xj589yc5wpquahyp749dkfi4jhm"
@@ -22,11 +24,11 @@ class Search(TemplateView):
         # returned_context = ingredient_sort(data)
         # ingredients = returned_context[0]
         ingredient_list_models = []
-        ingredients = ['High Fructose Corn Syrup', 'Soybean Oil', 'Unbleached Enriched Flour']
+        ingredients = []
         if ingredients:
             for ingredient in ingredients:
                 if Additive_list.objects.filter(name__icontains=ingredient):
-                    ingredient_ = Additive_list.objects.filter(name__icontains=ingredient).get()
+                    ingredient_ = Additive_list.objects.filter(name__icontains=ingredient).all()
                     ingredient_list_models.append(ingredient_)
         context['ingredient_list_model'] = ingredient_list_models
         context['image'] = 'https://images.barcodelookup.com/2755/27556319-1.jpg'
@@ -34,4 +36,40 @@ class Search(TemplateView):
         print(context)
         return context
 
-# Create your views here.
+class LandingPage(TemplateView):
+    template_name = 'main_function/landing_page.html'
+    
+class Search_ajax(View):
+    def post(self, request, *args, **kwargs):
+        print(**kwargs)
+        if request.is_ajax:
+            barcode_number = request.POST.get('barcode')
+            print(barcode_number)
+            ingredient_list_models = []
+            url = 'https://api.barcodelookup.com/v2/products?barcode=' + barcode_number + '&formatted=y&key=' + "184my40purcxxd1xsdyd2nm8o5bgw8"    
+            with urllib.request.urlopen(url) as url:
+                data = json.loads(url.read().decode())
+            return_context = ingredient_sort(data)
+            ingredients = return_context[0]
+            if ingredients:
+                for ingredient in ingredients:
+                    if Additive_list.objects.filter(name__icontains=ingredient):
+                        ingredient_ = Additive_list.objects.filter(name__icontains=ingredient).all()
+                        for ingredient1_ in ingredient_:
+                            name = ingredient1_.name
+                            description = ingredient1_.description
+                            pk = ingredient1_.pk
+                            ingredient_list_models.append((name, description, pk))
+            
+            # serialized_qs = serializers.serialize('json', ingredient_list_models)
+            # data = {"queryset" : serialized_qs}
+            # data = []
+            # data.append({'ingredients': ingredient_list_models})
+            # print(data)
+            print(ingredient_list_models)
+            return JsonResponse({'harmful_ingredients': ingredient_list_models, 'image_url': return_context[2], 'product_name': return_context[1], 'barcode': barcode_number}, status=200)
+        print(False)
+        return False
+
+
+

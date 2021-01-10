@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from main_function.views import Search
+from main_function.views import Search, LandingPage, Search, Search_ajax
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('search/', Search.as_view(), name='search-page')
+    path('search/', Search.as_view(), name='search-page'),
+    path("", LandingPage.as_view(), name='landing-page'),
+    path('search/ajax/view', Search_ajax.as_view(), name='ajax-view')
 ]
