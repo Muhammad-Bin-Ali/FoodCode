@@ -1,13 +1,28 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<title>Search</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="stylesheet" type='text/css' href="{% static 'main.css' %}">
+		<link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@400;500;700;800&family=Montserrat:wght@300;400;500&family=Rubik:wght@300;400;500;600;700&family=Staatliches&display=swap" rel="stylesheet">
 	</head>
 	<body>
-
-        
-
+		<input class='search-bar'>
+		<div class='image-name'>
+			{% for product in product_name %}
+				<h1 class='product-name'>{{ product }}</h1>
+			{% endfor%}
+			{% for image_url in image %}
+				<img src='{{ image_url }}'>
+			{% endfor %}
+		</div>
+		<div class='harmful-ingredient-card-list'>
+			{% for ingredient in ingredient_list_model %}
+				<h1 class='harmful-ingredients'>{{ ingredient.name }}</h1>
+				<p class='description'>{{ ingredient.description }}</p>
+			{% endfor %}
+		</div>
 	</body>
 </html>
