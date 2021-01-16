@@ -46,7 +46,7 @@ class Search_ajax(View):
             barcode_number = request.POST.get('barcode')
             print(barcode_number)
             ingredient_list_models = []
-            url = 'https://api.barcodelookup.com/v2/products?barcode=' + barcode_number + '&formatted=y&key=' + "184my40purcxxd1xsdyd2nm8o5bgw8"    
+            url = 'https://api.barcodelookup.com/v2/products?barcode=' + barcode_number + '&formatted=y&key=' + "   jmxudd59y0evlndm0o0rwq6h2dmmzr"    
             with urllib.request.urlopen(url) as url:
                 data = json.loads(url.read().decode())
             return_context = ingredient_sort(data)
@@ -70,6 +70,9 @@ class Search_ajax(View):
             return JsonResponse({'harmful_ingredients': ingredient_list_models, 'image_url': return_context[2], 'product_name': return_context[1], 'barcode': barcode_number}, status=200)
         print(False)
         return False
+
+
+        
 
 
 
