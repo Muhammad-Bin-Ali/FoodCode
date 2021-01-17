@@ -23,6 +23,8 @@ class Search(TemplateView):
         #     data = json.loads(url.read().decode())
         # returned_context = ingredient_sort(data)
         # ingredients = returned_context[0]
+
+
         ingredient_list_models = []
         ingredients = []
         if ingredients:
@@ -45,12 +47,13 @@ class Search_ajax(View):
         if request.is_ajax:
             barcode_number = request.POST.get('barcode')
             print(barcode_number)
-            ingredient_list_models = []
-            url = 'https://api.barcodelookup.com/v2/products?barcode=' + barcode_number + '&formatted=y&key=' + "   jmxudd59y0evlndm0o0rwq6h2dmmzr"    
+            ingredient_list_models = [] 
+            url = "https://world.openfoodfacts.org/api/v0/product/" + barcode_number  
             with urllib.request.urlopen(url) as url:
                 data = json.loads(url.read().decode())
-            return_context = ingredient_sort(data)
+            # return_context = ingredient_sort(data)
             ingredients = return_context[0]
+            ingredients = ['High Fructose Corn Syrup', 'Soybean Oil','Enriched Flour']
             if ingredients:
                 for ingredient in ingredients:
                     if Additive_list.objects.filter(name__icontains=ingredient):
