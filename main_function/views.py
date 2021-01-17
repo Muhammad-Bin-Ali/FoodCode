@@ -52,7 +52,7 @@ class Search_ajax(View):
             with urllib.request.urlopen(url) as url:
                 data = json.loads(url.read().decode())
             # return_context = ingredient_sort(data)
-            ingredients = return_context[0]
+            # ingredients = return_context[0]
             ingredients = ['High Fructose Corn Syrup', 'Soybean Oil','Enriched Flour']
             if ingredients:
                 for ingredient in ingredients:
@@ -70,7 +70,7 @@ class Search_ajax(View):
             # data.append({'ingredients': ingredient_list_models})
             # print(data)
             print(ingredient_list_models)
-            return JsonResponse({'harmful_ingredients': ingredient_list_models, 'image_url': return_context[2], 'product_name': return_context[1], 'barcode': barcode_number}, status=200)
+            return JsonResponse({'harmful_ingredients': ingredient_list_models, 'image_url': 'https://static.openfoodfacts.org/images/products/007/225/001/1372/front_en.10.200.jpg', 'product_name': 'Wonder, calcium fortified enriched bread, classic white', 'barcode': barcode_number}, status=200)
         print(False)
         return False
 

@@ -15,7 +15,7 @@ data = response.text.encode('utf8')
 
 with urllib.request.urlopen(url) as url:
     data=json.loads(url.read().decode())
-print(data['product']['ingredients_hierarchy'])
+print(data['product']['product_name_en_imported'])
 # response = requests.get(url)
     # with urllib.request.urlopen(url) as url:
     #     data = json.loads(url.read().decode())
