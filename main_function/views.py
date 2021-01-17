@@ -4,9 +4,10 @@ from .models import Additive_list
 import requests
 import urllib.request
 import json
-from .SortingAlgo import ingredient_sort
+
 from django.http import JsonResponse
 from django.core import serializers
+from .Barcodereader import barcode_reader_camera
 
 class Search(TemplateView): 
     # url = 'https://api.barcodelookup.com/v2/products?barcode=072250011372&formatted=y&key=' + "ax4xj589yc5wpquahyp749dkfi4jhm"
@@ -43,9 +44,17 @@ class LandingPage(TemplateView):
     
 class Search_ajax(View):
     def post(self, request, *args, **kwargs):
-        print(True)
         if request.is_ajax:
-            barcode_number = request.POST.get('barcode')
+            if request.POST.get("camera_button"):
+                barcode_number = barcode_reader_camera()
+                print(barcode_number)
+
+
+
+
+
+            if request.POST.get('barcode'):
+                barcode_number = request.POST.get('barcode')
             print(barcode_number)
             ingredient_list_models = [] 
             # url = "https://world.openfoodfacts.org/api/v0/product/" + barcode_number  

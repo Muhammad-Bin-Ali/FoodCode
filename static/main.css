@@ -193,7 +193,7 @@ h1.harmful-ingredients{
  .search-bar:focus::placeholder{
 	color: #2C5340;
  }
- 
+
 .image-name{
 	display: inline-block;
 	margin-top: -10em;
@@ -242,4 +242,16 @@ h1.harmful-ingredients{
 	height: 0.15em;
 	margin-right: 6.9em;
 	float:right
+}
+
+.camera-button{
+	background-color:transparent;
+	position: absolute;
+	left: 42.9em;
+	top: 5.9em;
+	opacity: 40%;
+}
+
+.camera-icon {
+	width: 1.8em;
 }

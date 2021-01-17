@@ -2,6 +2,9 @@
 
 #ingredient_list = "['Unbleached Enriched Flour (wheat Flour', 'Malted Barley Flour', 'Niacin', 'Reduced Iron', 'Thiamin Mononitrate', 'Riboflavin', 'Folic Acid)', 'Water', 'High Fructose Corn Syrup', 'Yeast', 'Contains 2% Or Less Of The Each Of The Following: Calcium Carbonate', 'Soybean Oil', 'Wheat Gluten', 'Salt', 'Dough Conditioners (contains One Or More Of The Following: Sodium Stearoyl Lactylate', 'Calcium Stearoyl Lactylate', 'Monoglycerides', 'Mono- And Diglycerides', 'Distilled Monoglycerides', 'Calcium Peroxide', 'Calcium Iodate', 'Datem', 'Ethoxylated Mono- And Diglycerides', 'Enzymes', 'Ascorbic Acid)', 'Vinegar', 'Monocalcium Phosphate', 'Yeast Extract', 'Modified Corn Starch', 'Sucrose', 'Sugar', 'Soy Lecithin', 'Cholecalciferol (vitamin D3)', 'Soy Flour', 'Ammonium Sulfate', 'Calcium Sulfate', 'Calcium Propionate (to Retard Spoilage).']"
 #toxic = ['Unbleached Enriched Flour', 'High Fructose Corn Syrup', 'Soybean Oil']
+import http.client
+import mimetypes
+import json
 
 def ingredient_sort(data):
     harmfulIngredients = []
@@ -27,6 +30,24 @@ def ingredient_sort(data):
             i = i+1
     temp_list = [harmfulIngredients, product_name, image_url]
     return temp_list
+
+def ingredients_api(barcode):
+    conn = http.client.HTTPSConnection("world.openfoodfacts.org")
+    payload = ''
+    headers = {
+    'Content-Type': 'application/x-www-form-urlencoded'
+    }
+    conn.request("GET", "/api/v0/product_name/5413548283128.json?fields=ingredients_text_en", payload, headers)
+    res = conn.getresponse()
+    data = res.read().decode("utf-8")
+    json_obj = json.loads(data)
+    for key in json_obj:
+    value = json_obj[key]
+    if (key == 'product'):
+      #print(key, value)
+      final = json_obj['product']
+      #final is the list of the ingredients.
+      print(final)
 
 def ingredient_sort_local(data):
     harmfulIngredients = []

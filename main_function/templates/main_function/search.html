@@ -18,7 +18,7 @@
 			<hr class='line-2'>
 			<form id='search-form'>
 				<input type='text' class='search-bar' id='search-bar' value='' placeholder="Please Enter the Barcode Number">
-				<button type="button" class='camera-button' id='camera-button'><img src='{% %}'></button>
+				<button type="button" class='camera-button' id='camera-button' name="camera"><img class='camera-icon' src='{% static "camera-icon.png"%}'></button>
 			</form>
 
 			<div class='image-name'></div>
@@ -55,16 +55,16 @@
 						},
 						success: function(response){
 							var ingredient_response = (response.harmful_ingredients);
-							// if ($('.image-name').children()) {
-							// 	$('.image-name').children().remove();
-							// }
+							if ($('.image-name').children()) {
+								$('.image-name').children().remove();
+							}
 					
 							$('.image-name').append(
 								`<img class='product_image' src=${response.image_url}>
 								<h1 class='product-name'>${response.product_name}</h1>
 								`
 							)
-							// $('#cards').children().remove();
+							$('#cards').children().remove();
 							for (var ingredient of ingredient_response){
 								$('#cards').append(
 									`<div class="ingredient-card" id=${ingredient[2]}></div>`
@@ -93,6 +93,63 @@
 				})
 			})
 		</script>
+
+		<script type='text/javascript'>
+			$.ajaxSetup({
+				headers: { "X-CSRFToken": '{{ csrf_token }}' }
+			});
+			$(document).ready(function(){
+				$('#camera-button').on('click', function(e){
+					e.preventDefault();
+					$.ajax({
+						type: 'POST',
+						url: "{% url 'ajax-view' %}",
+						data: {
+							csrfmiddlewaretoken: '{{ csrf_token }}',
+							camera_button: true,
+						},
+						success: function(response){
+							var ingredient_response = (response.harmful_ingredients);
+							if ($('.image-name').children()) {
+								$('.image-name').children().remove();
+							}
+					
+							$('.image-name').append(
+								`<img class='product_image' src=${response.image_url}>
+								<h1 class='product-name'>${response.product_name}</h1>
+								`
+							)
+							$('#cards').children().remove();
+							for (var ingredient of ingredient_response){
+								$('#cards').append(
+									`<div class="ingredient-card" id=${ingredient[2]}></div>`
+								)
+							}
+							
+							for (var ingredient of ingredient_response){
+								var name = ingredient[0]
+								var description = ingredient[1]
+								var id = "#" + ingredient[2]
+
+								$(id).append(
+									`<div class="card-content">
+									<h1 class='harmful-ingredients'>${name}</h1>
+									<p class='description'>${description}</p>
+									</div>`
+								)
+							}
+						},
+						error: function(response){
+							console.log("fail")
+							
+						}
+					})
+					
+				})
+			})
+		</script>
+
+
 	</body>
 
 
