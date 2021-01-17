@@ -16,8 +16,10 @@
 		<div class='main-wrapper'>
 			<hr class='line-1'>
 			<hr class='line-2'>
-			<input type='text' class='search-bar' id='search-bar' value='' placeholder="Please Enter the Barcode Number">
-			<input type="submit" class='bt' name="bt" id="bt" value="Submit">
+			<form id='search-form'>
+				<input type='text' class='search-bar' id='search-bar' value='' placeholder="Please Enter the Barcode Number">
+				<button type="button" class='camera-button' id='camera-button'><img src='{% %}'></button>
+			</form>
 
 			<div class='image-name'></div>
 			<div class='harmful-ingredient-card-list' id='cards'>
@@ -41,8 +43,8 @@
 				headers: { "X-CSRFToken": '{{ csrf_token }}' }
 			});
 			$(document).ready(function(){
-	
-				$('#bt').click(function(){
+				$('#search-form').submit(function(e){
+					e.preventDefault();
 					var barcode_number = $('#search-bar').val();
 					$.ajax({
 						type: 'POST',
@@ -52,15 +54,17 @@
 							csrfmiddlewaretoken: '{{ csrf_token }}',
 						},
 						success: function(response){
-							
 							var ingredient_response = (response.harmful_ingredients);
-							$('.image-name').children().remove();
+							// if ($('.image-name').children()) {
+							// 	$('.image-name').children().remove();
+							// }
+					
 							$('.image-name').append(
 								`<img class='product_image' src=${response.image_url}>
 								<h1 class='product-name'>${response.product_name}</h1>
 								`
 							)
-							$('#cards').children().remove();
+							// $('#cards').children().remove();
 							for (var ingredient of ingredient_response){
 								$('#cards').append(
 									`<div class="ingredient-card" id=${ingredient[2]}></div>`
@@ -81,10 +85,11 @@
 							}
 						},
 						error: function(response){
-							console.log(response)
-							alert('AJAX ERROR')
+							console.log("fail")
+							
 						}
 					})
+					
 				})
 			})
 		</script>

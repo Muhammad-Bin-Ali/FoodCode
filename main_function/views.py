@@ -43,14 +43,15 @@ class LandingPage(TemplateView):
     
 class Search_ajax(View):
     def post(self, request, *args, **kwargs):
-        print(**kwargs)
+        print(True)
         if request.is_ajax:
             barcode_number = request.POST.get('barcode')
             print(barcode_number)
             ingredient_list_models = [] 
-            url = "https://world.openfoodfacts.org/api/v0/product/" + barcode_number  
-            with urllib.request.urlopen(url) as url:
-                data = json.loads(url.read().decode())
+            # url = "https://world.openfoodfacts.org/api/v0/product/" + barcode_number  
+            # with urllib.request.urlopen(url) as url:
+            #     data = json.loads(url.read().decode())
+            #     print("Ajax")
             # return_context = ingredient_sort(data)
             # ingredients = return_context[0]
             ingredients = ['High Fructose Corn Syrup', 'Soybean Oil','Enriched Flour']
@@ -69,7 +70,6 @@ class Search_ajax(View):
             # data = []
             # data.append({'ingredients': ingredient_list_models})
             # print(data)
-            print(ingredient_list_models)
             return JsonResponse({'harmful_ingredients': ingredient_list_models, 'image_url': 'https://static.openfoodfacts.org/images/products/007/225/001/1372/front_en.10.200.jpg', 'product_name': 'Wonder, calcium fortified enriched bread, classic white', 'barcode': barcode_number}, status=200)
         print(False)
         return False

@@ -129,7 +129,7 @@ html {
 	top: 0em;
 }
 div.ingredient-card{
-	border-radius: 1em; 
+	border-radius: 0.4em; 
 	background-color: rgba(256,256,256, 15%);
 	height: 8em;
 	width: auto;
@@ -193,28 +193,7 @@ h1.harmful-ingredients{
  .search-bar:focus::placeholder{
 	color: #2C5340;
  }
-.bt {
-	position: absolute;
-	bottom: -50%;
-	text-decoration: none;
-	background-color: #203727;
-	padding: 1.5em 5em 1.5em 5em;
-	margin-top: 0em;
-	font-family: 'Rubik', sans-serif;
-	color:#fff;
-	font-size: 0.7em;
-	font-weight: 600;
-	text-transform: uppercase;
-	letter-spacing: 0.2em;
-	border-radius: 1em;
-	top: -10em;
-
-}
-
-.bt:hover{
-	background-color:#2A4A33;
-}
-
+ 
 .image-name{
 	display: inline-block;
 	margin-top: -10em;
@@ -240,6 +219,7 @@ h1.harmful-ingredients{
 	letter-spacing:auto;
 	padding: 1em 2em 1em 2em;
 	text-align: center;
+	text-transform: uppercase;
 }
 
 .line-1{
