@@ -37,17 +37,35 @@ def ingredients_api(barcode):
     headers = {
     'Content-Type': 'application/x-www-form-urlencoded'
     }
+
     conn.request("GET", "/api/v0/product_name/5413548283128.json?fields=ingredients_text_en", payload, headers)
     res = conn.getresponse()
     data = res.read().decode("utf-8")
     json_obj = json.loads(data)
     for key in json_obj:
-    value = json_obj[key]
-    if (key == 'product'):
-      #print(key, value)
-      final = json_obj['product']
-      #final is the list of the ingredients.
-      print(final)
+        if (key == 'product'):
+            ingredients = json_obj['product']
+    
+    conn.request("GET", "/api/v0/product_name/5413548283128.json?fields=product_name", payload, headers)
+    res = conn.getresponse()
+    data = res.read().decode("utf-8")
+    json_obj = json.loads(data)
+    for key in json_obj:
+        if (key == 'product'):
+            productname = json_obj['product']
+
+    conn.request("GET", "/api/v0/product_name/5413548283128.json?fields=image_url", payload, headers)
+    res = conn.getresponse()
+    data = res.read().decode("utf-8")
+    json_obj = json.loads(data)
+    for key in json_obj:
+        if (key == 'product'):
+            imageurl = json_obj['product']
+    
+
+    
+
+    
 
 def ingredient_sort_local(data):
     harmfulIngredients = []

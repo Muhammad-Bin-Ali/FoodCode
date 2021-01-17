@@ -21,7 +21,7 @@ html {
 	height: 100%;
 	position: absolute;
 	background-image: url(landing_page/background.png);
-	background-color: #85B59E ; 
+	background-color: #5C9C7D; 
 	background-repeat: no-repeat;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
@@ -90,7 +90,6 @@ html {
 	font-weight: 600;
 	text-transform: uppercase;
 	letter-spacing: 0.2em;
-	border-radius: 1em;
 }
 
 .landing-button:hover{
